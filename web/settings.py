@@ -16,7 +16,7 @@ DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 import os
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "buyitn.onrender.com").split(",")
 
 
 # Application definition
