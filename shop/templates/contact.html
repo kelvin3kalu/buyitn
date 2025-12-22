@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>Buyit - Contact</title>
+{% endblock title %}
+
+{% block style %}
+<style>
+/* === IMPORT FONT === */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;500;600&display=swap');
+
+/* === CONTAINER === */
+.contact-container {
+    padding: 60px 20px;
+    max-width: 900px;
+    margin: auto;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), #0a1f3d;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,255,255,0.1);
+    color: #f0f0f0;
+    animation: fadeIn 1.5s ease forwards;
+}
+
+/* === HEADINGS === */
+.contact-heading {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #ffd700;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #00f0ff;
+    animation: glow 2s infinite alternate;
+}
+
+.contact-intro {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.2rem;
+    color: #f0f0f0;
+    text-align: center;
+    margin-bottom: 40px;
+    line-height: 1.7;
+}
+
+/* === FADE-IN SECTIONS === */
+.fade-in-section {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    margin-top: 40px;
+    padding: 30px;
+    border-radius: 12px;
+    background-color: #13294b;
+    box-shadow: 0 10px 20px rgba(0,255,255,0.1);
+}
+
+.fade-in-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fade-in-section h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    color: #00f0ff;
+    margin-bottom: 20px;
+    text-shadow: 0 0 5px #00f0ff;
+}
+
+/* === FORM === */
+.contact-form label {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ffd700;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #0c1c38;
+    color: #f0f0f0;
+    letter-spacing: 0.3px;
+}
+
+.contact-form .submit-btn {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    background-color: #ffd700;
+    color: #13294b;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.contact-form .submit-btn:hover {
+    background-color: #00f0ff;
+    color: #000;
+    box-shadow: 0 0 10px #00f0ff, 0 0 20px #ffd700;
+}
+
+/* === SOCIAL LINKS === */
+.social-connect h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    color: #00f0ff;
+    margin-top: 30px;
+    text-shadow: 0 0 5px #00f0ff;
+}
+
+.social-connect a {
+    font-family: 'Inter', sans-serif;
+    color: #ffd700;
+    text-decoration: none;
+    margin: 0 10px;
+    transition: all 0.3s ease;
+}
+
+.social-connect a:hover {
+    color: #00f0ff;
+    text-shadow: 0 0 10px #00f0ff;
+}
+
+/* === ANIMATIONS === */
+@keyframes glow {
+    0% { text-shadow: 0 0 5px #00f0ff; }
+    50% { text-shadow: 0 0 15px #00f0ff, 0 0 25px #ffd700; }
+    100% { text-shadow: 0 0 5px #00f0ff; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* === RESPONSIVE === */
+@media screen and (max-width:768px){
+    .contact-heading { font-size: 2.2rem; }
+    .fade-in-section h3 { font-size: 1.5rem; }
+}
+@media screen and (max-width:480px){
+    .contact-heading { font-size: 1.8rem; }
+    .fade-in-section { padding: 20px; }
+}
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="contact-container">
+
+    <h2 class="contact-heading">Contact Us</h2>
+    <p class="contact-intro">We’d love to hear from you! If you have any questions or feedback, please feel free to reach out.</p>
+
+    <div class="fade-in-section contact-form">
+        <h3>Send Us a Message</h3>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+    </div>
+
+    <div class="fade-in-section social-connect">
+        <h3>Connect With Us</h3>
+        <p>
+            <a href="#">Facebook</a> |
+            <a href="#">Instagram</a> |
+            <a href="#">Twitter</a>
+        </p>
+    </div>
+
+</div>
+{% endblock content %}
+
+{% block script %}
+<script>
+const sections = document.querySelectorAll('.fade-in-section');
+const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting){
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.1 });
+
+sections.forEach(section => observer.observe(section));
+</script>
+{% endblock script %}

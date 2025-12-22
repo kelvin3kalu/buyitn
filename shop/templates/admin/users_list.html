@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Admin – Manage Users</title>
+{% endblock title %}
+
+{% block style %}
+<style>
+.users-admin {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 30px;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    color: #f0f0f0;
+}
+
+.users-admin h1 {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 35px;
+    color: #ffffff;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 25px;
+    color: #6dd6ff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #0f1f38;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 14px 16px;
+    text-align: center;
+}
+
+th {
+    background-color: #13294b;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    color: #dce6ff;
+}
+
+tr:nth-child(even) {
+    background-color: #111f35;
+}
+
+tr:hover {
+    background-color: #182f55;
+}
+
+/* Status labels */
+.status-yes {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.status-no {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+/* Action links */
+.actions a {
+    color: #6dd6ff;
+    text-decoration: none;
+    margin: 0 4px;
+    font-size: 0.9rem;
+}
+
+.actions a:hover {
+    text-decoration: underline;
+}
+
+/* Self label */
+.self-label {
+    color: #aaa;
+    font-style: italic;
+}
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="users-admin">
+
+    <a href="{% url 'admin-dashboard' %}" class="back-link">← Back to Dashboard</a>
+
+    <h1>Admin – Manage Users</h1>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Active</th>
+            <th>Admin</th>
+            <th>Superuser</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+
+            <!-- Active -->
+            <td>
+                {% if user.is_active %}
+                    <span class="status-yes">Active</span>
+                {% else %}
+                    <span class="status-no">Blocked</span>
+                {% endif %}
+            </td>
+
+            <!-- Custom Admin -->
+            <td>
+                {% if user.profile.is_custom_admin %}
+                    <span class="status-yes">Admin</span>
+                {% else %}
+                    <span class="status-no">User</span>
+                {% endif %}
+            </td>
+
+            <!-- Django Superuser -->
+            <td>
+                {% if user.is_superuser %}
+                    <span class="status-yes">Yes</span>
+                {% else %}
+                    <span class="status-no">No</span>
+                {% endif %}
+            </td>
+
+            <td class="actions">
+                {% if user != request.user %}
+                    <a href="{% url 'admin_toggle_block' user.id %}">Block / Unblock</a> |
+                    <a href="{% url 'admin_toggle_admin' user.id %}">Admin</a> |
+                    <a href="{% url 'admin_toggle_superuser' user.id %}">Superuser</a> |
+                    <a href="{% url 'admin_user_delete' user.id %}"
+                       onclick="return confirm('Are you sure you want to delete this user?');">
+                        Delete
+                    </a>
+                {% else %}
+                    <span class="self-label">(You)</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+{% endblock content %}

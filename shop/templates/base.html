@@ -1,0 +1,236 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyit</title>
+    {% block title %}{% endblock title %}
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Tangerine&display=swap">
+    <script src="https://kit.fontawesome.com/1cd3e356b0.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+{% block style %}{% endblock style %}
+<style>
+/* === BODY & GENERAL === */
+body{
+    background-color: #060d1e; /* Darker futuristic blue */
+    color: #f0f0f0;
+    font-family: 'Orbitron', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+a { text-decoration: none; color: #ffd700; transition: 0.3s; }
+a:hover { color: #00f0ff; text-shadow: 0 0 10px #00f0ff; }
+
+/* === HEADER === */
+header {
+    background-color: #0c1c38;
+    color: #ffd700;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+    transition: opacity 0.4s ease-in-out, box-shadow 0.3s;
+    box-shadow: 0 0 20px rgba(0,255,255,0.2);
+}
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+nav ul li { margin-right: 20px; }
+nav ul li a { 
+    color: #ffd700; 
+    font-weight: bold;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.2px; 
+    }
+nav ul li a:hover { 
+    color: #00f0ff; 
+    text-shadow: 0 0 5px #00f0ff; 
+    }
+
+.logo a {
+    color: #ffd700;
+    font-family: 'Tangerine', serif;
+    font-size: 28px;
+    font-style: italic;
+    text-shadow: 0 0 10px #00f0ff;
+    animation: glow 2s infinite alternate;
+}
+
+.butt button {
+    background-color: #ffd700;
+    border: none;
+    color: #0c1c38;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.butt button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 15px #00f0ff, 0 0 25px #ffd700;
+}
+
+/* === FOOTER === */
+footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: space-between;
+    padding: 40px 20px;
+    background-color: #0c1c38;
+    color: #ffd700;
+}
+footer h3 { color: #ffd700; }
+footer a { color: #ffd700; transition: 0.3s; }
+footer a:hover { color: #00f0ff; text-shadow: 0 0 5px #00f0ff; }
+footer .right { width: 100%; text-align: center; margin-top: 20px; }
+
+/* === TOGGLE MENU === */
+.tlink, .tbutt { display: none; }
+.hambuger { display: none; color: #ffd700; cursor: pointer; }
+.toogle { background-color: #0f1a33; border-radius: 5px; padding: 10px; width: auto; }
+.toogle ul li { margin: 10px 0; }
+
+/* === ANIMATIONS === */
+@keyframes glow {
+    0% { text-shadow: 0 0 5px #00f0ff; }
+    50% { text-shadow: 0 0 15px #00f0ff, 0 0 30px #ffd700; }
+    100% { text-shadow: 0 0 5px #00f0ff; }
+}
+@keyframes fadeIn {
+    to { opacity: 1; transform: translateY(0); }
+}
+.fade-section {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 1s ease forwards;
+}
+
+/* === RESPONSIVE === */
+@media screen and (max-width: 768px) {
+    .butt, .link { display: none; }
+    .hambuger { display: block; }
+}
+@media screen and (max-width: 480px) {
+    nav { flex-direction: column; }
+}
+</style>
+
+{% block header %}
+<header class="fade-section">
+    <nav>
+        <div class="logo">
+            <a href="{% url 'home' %}">Buyit</a>
+        </div>
+        <div class="link">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+            </ul>
+        </div>
+        <div class="butt">
+            <a href="{% url 'login' %}"><button>Login</button></a>
+            <a href="{% url 'register' %}"><button>Register</button></a>
+            <a href="{% url 'product_list' %}"><button>Products</button></a>
+        </div>
+        <div class="hambuger"><i class="fa-solid fa-bars fa-2x"></i></div>
+    </nav>
+    <div class="toogle">
+        <div class="tlink">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+                <li><a href="{% url 'product_list' %}">Products</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+{% endblock header %}
+
+<div class="content fade-section">
+    {% block content %}{% endblock content %}
+</div>
+
+{% block footer %}
+<footer class="fade-section">
+    <div class="lasdiv">
+        <h3>Quick Links</h3>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'product_list' %}">Shop</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+            <li><a href="{% url 'faqs' %}">FAQs</a></li>
+            <li><a href="{% url 'terms' %}">Terms & Conditions</a></li>
+        </ul>
+    </div>
+    <div class="contacte">
+        <h3>Contact Us</h3>
+        <p>Email: Buyit@gmail.com</p>
+        <p>Phone: +23481163072</p>
+        <p>Address: 45 Market Road, Aba, Nigeria</p>
+    </div>
+    <div class="social">
+        <h3>Follow Us</h3>
+        <p><a href="#">Facebook</a></p>
+        <p><a href="#">Instagram</a></p>
+        <p><a href="#">LinkedIn</a></p>
+    </div>
+    <div class="right">
+        <p>&copy; <span class="date"></span> All rights reserved</p>
+        <p>Last Modified: <span class="lasmodi"></span></p>
+    </div>
+</footer>
+<script>
+    document.querySelector('.date').innerHTML = new Date().getFullYear();
+
+    const hamburger = document.querySelector('.hambuger');
+    hamburger.addEventListener('click', () => {
+        const tlink = document.querySelector('.tlink');
+        if (tlink.style.display === 'block') {
+            tlink.style.display = 'none';
+            hamburger.innerHTML = '<i class="fa-solid fa-bars fa-2x"></i>';
+        } else {
+            tlink.style.display = 'block';
+            hamburger.innerHTML = '<i class="fa-solid fa-xmark fa-2x"></i>';
+        }
+    });
+
+    let lastScrollTop = 0;
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        header.style.opacity = scrollTop > lastScrollTop ? "0.6" : "1";
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    });
+
+    document.querySelector('.lasmodi').textContent = document.lastModified;
+</script>
+{% endblock footer %}
+
+{% block script %}{% endblock script %}
+
+</body>
+</html>

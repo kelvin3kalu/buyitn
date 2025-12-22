@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Admin - Products</title>
+{% endblock title %}
+
+{% block style %}
+<style>
+body {
+    background-color: #0a1f3d;
+    font-family: 'Orbitron', sans-serif;
+    color: #f0f0f0;
+}
+
+.admin-container {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.admin-container h1 {
+    text-align: center;
+    color: #ffd700;
+    text-shadow: 0 0 10px #00f0ff;
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    animation: glow 2s infinite alternate;
+}
+
+.admin-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.admin-links a {
+    padding: 10px 20px;
+    background-color: rgb(14,11,12);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.admin-links a:hover {
+    background-color: #00f0ff;
+    color: #000;
+    box-shadow: 0 0 10px #00f0ff, 0 0 20px #ffd700;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), #13294b;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,255,255,0.1);
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #00f0ff33;
+}
+
+th {
+    background-color: #0c1c38;
+    color: #ffd700;
+    font-size: 1rem;
+}
+
+tr:hover {
+    background-color: rgba(0, 255, 255, 0.1);
+}
+
+.actions a {
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+}
+
+.actions a.edit {
+    background-color: #28a745;
+}
+
+.actions a.edit:hover {
+    background-color: #218838;
+}
+
+.actions a.delete {
+    background-color: #dc3545;
+}
+
+.actions a.delete:hover {
+    background-color: #c82333;
+}
+
+@keyframes glow {
+    0% { text-shadow: 0 0 5px #00f0ff; }
+    50% { text-shadow: 0 0 15px #00f0ff, 0 0 25px #ffd700; }
+    100% { text-shadow: 0 0 5px #00f0ff; }
+}
+
+/* Responsive */
+@media screen and (max-width:768px){
+    .admin-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    th, td {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+}
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="admin-container">
+    <h1>🛒 Admin Product Management</h1>
+
+    <div class="admin-links">
+        <a href="{% url 'admin-dashboard' %}">← Back to Dashboard</a>
+        <a href="{% url 'admin-product-add' %}">Create New Product</a>
+    </div>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for product in products %}
+        <tr>
+            <td>{{ product.id }}</td>
+            <td>{{ product.name }}</td>
+            <td>₦{{ product.price }}</td>
+            <td class="actions">
+                <a href="{% url 'admin-product-edit' product.id %}" class="edit">Edit</a>
+                <a href="{% url 'admin-product-delete' product.id %}" class="delete">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No products found</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock content %}

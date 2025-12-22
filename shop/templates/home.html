@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+<title>Buyit | Home</title>
+{% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@500;700&family=Tangerine&display=swap">
+
+<style>
+/* === GENERAL === */
+body {
+    background-color: #060d1e;
+    color: #f0f0f0;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: #ffd700;
+}
+
+/* === INTRO / HERO === */
+.intro {
+    background:
+        linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
+        url("{% static 'images/top-view-shopping-cart-arrangement-copy-space.jpg' %}")
+        center/cover no-repeat;
+    text-align: center;
+    padding: 180px 20px;
+    opacity: 0;
+    animation: fadeIn 1.8s ease forwards;
+}
+
+.intro h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 4.5rem;
+    color: #ffd700;
+    margin-bottom: 20px;
+    text-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+}
+
+.intro h1 span {
+    font-family: 'Tangerine', serif;
+    font-size: 5rem;
+}
+
+.intro p {
+    font-size: 1.25rem;
+    max-width: 700px;
+    margin: 10px auto;
+    line-height: 1.7;
+    color: #e6e6e6;
+}
+
+/* === WHY SECTION === */
+.why {
+    text-align: center;
+    padding: 90px 20px;
+}
+
+.why h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.8rem;
+    color: #00f0ff;
+    margin-bottom: 50px;
+    opacity: 0;
+    animation: fadeInUp 1.2s ease forwards;
+}
+
+.ret, .aj {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+}
+
+/* === CARDS === */
+.reliable, .easy, .secure, .support, .ada, .john {
+    background-color: #0c1c38;
+    width: 300px;
+    padding: 30px 25px;
+    border-radius: 16px;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    animation: fadeInUp 1s ease forwards;
+}
+
+.reliable h2,
+.easy h2,
+.secure h2,
+.support h2,
+.ada h2,
+.john h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    color: #ffd700;
+    margin-bottom: 10px;
+}
+
+.reliable p,
+.easy p,
+.secure p,
+.support p,
+.ada p,
+.john p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #dcdcdc;
+}
+
+.reliable:hover,
+.easy:hover,
+.secure:hover,
+.support:hover,
+.ada:hover,
+.john:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
+}
+
+/* === HR === */
+hr {
+    margin: 70px auto;
+    border: none;
+    height: 1px;
+    width: 50%;
+    background: linear-gradient(to right, transparent, #00f0ff, transparent);
+}
+
+/* === TRUST SECTION === */
+.trust h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    color: #00f0ff;
+    margin-bottom: 40px;
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* === RESPONSIVE === */
+@media screen and (max-width: 768px) {
+    .intro h1 {
+        font-size: 3rem;
+    }
+    .intro h1 span {
+        font-size: 3.5rem;
+    }
+    .intro p {
+        font-size: 1rem;
+    }
+    .why h1 {
+        font-size: 2rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .intro {
+        padding: 140px 15px;
+    }
+    .intro h1 {
+        font-size: 2.3rem;
+    }
+    .intro h1 span {
+        font-size: 2.8rem;
+    }
+    .ret, .aj {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+</style>
+{% endblock style %}
+
+{% block content %}
+<main>
+    <div class="intro">
+        <h1>Welcome to <span>Buyit</span></h1>
+        <p>Your futuristic one-stop shop for everything you need.</p>
+        <p>Discover quality products, smooth checkout, and secure payments.</p>
+        <p>Join today and experience smarter shopping.</p>
+    </div>
+
+    <section class="why">
+        <h1>Why choose Buyit?</h1>
+
+        <div class="ret">
+            <div class="reliable">
+                <h2>Reliable</h2>
+                <p>Carefully selected products you can trust, every single time.</p>
+            </div>
+
+            <div class="easy">
+                <h2>Easy to Use</h2>
+                <p>A clean and intuitive interface built for smooth navigation.</p>
+            </div>
+
+            <div class="secure">
+                <h2>Secure</h2>
+                <p>Advanced security ensures your data and payments are safe.</p>
+            </div>
+
+            <div class="support">
+                <h2>24/7 Support</h2>
+                <p>Our support team is always available when you need help.</p>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="trust">
+            <h1>What customers say</h1>
+
+            <div class="aj">
+                <div class="ada">
+                    <p>“Fast delivery and excellent customer service.”</p>
+                    <h2>— Ada, Lagos</h2>
+                </div>
+
+                <div class="john">
+                    <p>“Everything I needed in one place. Smooth experience.”</p>
+                    <h2>— John, Abuja</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock content %}

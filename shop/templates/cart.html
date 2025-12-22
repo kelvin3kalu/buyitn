@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Buyit - Cart</title>
+{% endblock title %}
+
+{% block style %}
+<style>
+.cart-container {
+    width: 90%;
+    max-width: 900px;
+    margin: 80px auto 50px; /* add margin-top to prevent navbar overlap */
+    padding: 20px;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), #0a1f3d;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,255,255,0.1);
+    color: #f0f0f0;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.cart-container h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #ffd700;
+    text-shadow: 0 0 10px #00f0ff;
+    animation: glow 2s infinite alternate;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10px;
+    border-bottom: 1px solid #00f0ff20;
+    transition: background 0.3s ease;
+}
+
+.cart-item:hover {
+    background-color: #13294b50;
+    border-radius: 10px;
+}
+
+.cart-item-details strong {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: #ffd700;
+}
+
+.cart-item-details span {
+    font-size: 0.95rem;
+    color: #00f0ff;
+}
+
+.cart-item form button {
+    background-color: #dc3545;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cart-item form button:hover {
+    background-color: #c82333;
+}
+
+.cart-total {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: right;
+    margin-top: 20px;
+    color: #ffd700;
+}
+
+.buttr {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.add-products-link, .checkout-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.add-products-link {
+    background-color: #ffd700;
+    color: #13294b;
+}
+
+.add-products-link:hover {
+    background-color: #00f0ff;
+    color: #000;
+}
+
+.checkout-btn {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.checkout-btn:hover {
+    background-color: #218838;
+}
+
+.empty-cart-message {
+    text-align: center;
+    font-size: 1.3rem;
+    color: #ccc;
+    margin-top: 40px;
+}
+
+/* Animations */
+@keyframes glow {
+    0% { text-shadow: 0 0 5px #00f0ff; }
+    50% { text-shadow: 0 0 15px #00f0ff, 0 0 20px #ffd700; }
+    100% { text-shadow: 0 0 5px #00f0ff; }
+}
+
+/* Responsive */
+@media screen and (max-width:768px){
+    .cart-item { flex-direction: column; align-items: flex-start; }
+    .cart-item form { margin-top: 10px; }
+    .buttr { flex-direction: column; }
+}
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="cart-container">
+    <h2>Your Cart</h2>
+
+    {% if cart_items %}
+        {% for item in cart_items %}
+            <div class="cart-item">
+                <div class="cart-item-details">
+                    <strong>{{ item.product.name }}</strong>
+                    <span>£{{ item.product.price }} × {{ item.quantity }}</span>
+                </div>
+                <form method="post" action="{% url 'remove-from-cart' item.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Remove</button>
+                </form>
+            </div>
+        {% endfor %}
+
+        <p class="cart-total">
+            Total: £{{ total }}
+        </p>
+
+        <div class="buttr">
+            <a href="{% url 'product_list' %}" class="add-products-link">Add More Products</a>
+
+            <form method="post" action="{% url 'paypal_create' %}">
+                {% csrf_token %}
+                <button type="submit" class="checkout-btn">Pay with PayPal</button>
+            </form>
+        </div>
+
+    {% else %}
+        <p class="empty-cart-message">Your cart is empty.</p>
+    {% endif %}
+</div>
+{% endblock content %}
+
+{% block script %}
+<script>
+    // Optional: update currency conversion if needed
+    const exchangeRate = 1.35; 
+    const totalInUSD = ({{ total }} / exchangeRate).toFixed(2);
+
+    // PayPal Buttons rendering (if using JS SDK)
+    if(document.getElementById('paypal-button-container')){
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: { value: totalInUSD, currency_code: 'USD' }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    alert('Transaction completed by ' + details.payer.name.given_name);
+                });
+            }
+        }).render('#paypal-button-container');
+    }
+</script>
+{% endblock script %}

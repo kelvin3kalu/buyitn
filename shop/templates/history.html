@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+  body {
+    background-color: #0a1f3d; /* dark background like other pages */
+    font-family: 'Orbitron', sans-serif;
+    color: #f0f0f0;
+  }
+
+  .orders-container {
+    max-width: 900px;
+    margin: 80px auto 50px; /* avoid navbar overlap */
+    padding: 20px;
+  }
+
+  .orders-container h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: #ffd700;
+    text-shadow: 0 0 10px #00f0ff;
+    margin-bottom: 30px;
+    animation: glow 2s infinite alternate;
+  }
+
+  .order-card {
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), #13294b;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,255,255,0.1);
+    transition: all 0.3s ease;
+  }
+
+  .order-card:hover {
+    box-shadow: 0 15px 30px rgba(0,255,255,0.3);
+    transform: translateY(-3px);
+  }
+
+  .order-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #00f0ff;
+  }
+
+  .order-items {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 10px;
+  }
+
+  .order-items li {
+    background-color: #0c1c38;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    color: #f0f0f0;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+  }
+
+  .btn-danger:hover {
+    background-color: #c82333;
+  }
+
+  .btn-warning {
+    background-color: #ffd700;
+    color: #13294b;
+  }
+
+  .btn-warning:hover {
+    background-color: #00f0ff;
+    color: #000;
+  }
+
+  .no-orders {
+    text-align: center;
+    color: #ffd700;
+    font-size: 1.2rem;
+    margin-top: 50px;
+  }
+
+  /* Animations */
+  @keyframes glow {
+    0% { text-shadow: 0 0 5px #00f0ff; }
+    50% { text-shadow: 0 0 15px #00f0ff, 0 0 20px #ffd700; }
+    100% { text-shadow: 0 0 5px #00f0ff; }
+  }
+
+  /* Responsive */
+  @media screen and (max-width:768px){
+    .order-header {
+      flex-direction: column;
+      gap: 5px;
+    }
+  }
+</style>
+
+<div class="orders-container">
+  <h2>🧾 My Order History</h2>
+  <a href="{% url 'clear_order_history' %}" class="btn btn-warning">Clear Order History</a>
+
+  {% for order in orders %}
+    <div class="order-card">
+      <div class="order-header">
+        <span>Order ID: #{{ order.id }}</span>
+        <span>{{ order.created_at|date:"F j, Y - h:i A" }}</span>
+      </div>
+      <p><strong>Reference:</strong> {{ order.reference }}</p>
+      <p><strong>Total:</strong> £{{ order.total_amount }}</p>
+
+      <h4>Items:</h4>
+      <ul class="order-items">
+        {% for item in order.items.all %}
+          <li>{{ item.product.name }} × {{ item.quantity }}</li>
+        {% endfor %}
+      </ul>
+      <a href="{% url 'remove_order' order.id %}" class="btn btn-danger">Delete Order</a>
+    </div>
+  {% empty %}
+    <div class="no-orders">
+      🛒 You have not placed any orders yet.
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

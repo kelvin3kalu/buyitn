@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Buyit - Register</title>
+{% endblock title %}
+
+{% block style %}
+<style>
+/* === IMPORT FONTS === */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;500;600&display=swap');
+
+/* === CONTAINER === */
+.container {
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), #0a1f3d;
+    width: 100%;
+    max-width: 400px;
+    margin: 100px auto 50px;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 255, 255, 0.2);
+    color: #f0f0f0;
+    font-family: 'Inter', sans-serif;
+    animation: fadeIn 1s ease forwards;
+}
+
+/* === HEADING === */
+h2 {
+    text-align: center;
+    color: #ffd700;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    text-shadow: 0 0 10px #00f0ff;
+    animation: glow 2s infinite alternate;
+}
+
+/* === FORM === */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form input, form button {
+    padding: 12px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #13294b;
+    color: #f0f0f0;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+}
+
+form input:focus {
+    outline: none;
+    box-shadow: 0 0 10px #00f0ff;
+}
+
+form button {
+    background-color: #ffd700;
+    color: #13294b;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    padding: 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+form button:hover {
+    background-color: #00f0ff;
+    color: #000;
+    box-shadow: 0 0 10px #00f0ff, 0 0 20px #ffd700;
+}
+
+/* === MESSAGES & LINKS === */
+p, a {
+    text-align: center;
+    font-size: 14px;
+    color: #ffd700;
+}
+
+p a:hover {
+    color: #00f0ff;
+    text-shadow: 0 0 5px #00f0ff;
+}
+
+/* === ANIMATIONS === */
+@keyframes glow {
+    0% { text-shadow: 0 0 5px #00f0ff; }
+    50% { text-shadow: 0 0 15px #00f0ff, 0 0 20px #ffd700; }
+    100% { text-shadow: 0 0 5px #00f0ff; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* === RESPONSIVE === */
+@media screen and (max-width: 480px) {
+    .container {
+        width: 90%;
+        padding: 20px;
+    }
+    h2 {
+        font-size: 1.5rem;
+    }
+    form input, form button {
+        font-size: 14px;
+    }
+}
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="container">
+    <h2>Register</h2>
+    <form method="POST" action="{% url 'register' %}">
+        {% csrf_token %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Register</button>
+    </form>
+
+    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+</div>
+{% endblock content %}
+
