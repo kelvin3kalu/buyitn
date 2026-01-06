@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Product,Category,CartItem,Order,OrderItem
+from .models import Product,Category,CartItem,Order,OrderItem, Profile
 from .product import Podu
 from django.contrib.auth import authenticate,login,logout,user_logged_in
 from .reigister import Register, EditProfileForm
@@ -98,21 +98,22 @@ def register(request):
     if request.method == 'POST':
         form = Register(request.POST)
         if form.is_valid():
-            try:
-                form.save()
-                messages.success(request, 'Profile updated successfully.')
-                return redirect('settings')
-            except TimeoutError:
-                messages.error(request, "Login timed out. Please try again.")
-            except socket.gaierror as e:
-                if e.errno == 11001:
-                    messages.error(request,"Please check your internet connection")
-                else:
-                    messages.error(request,f" Network error occurred: {e}")
-            except Exception as e:
-                messages.error(request, f"An error occurred: {e}")
+            user = form.save()
+
+            # ✅ Create profile
+            profile = Profile.objects.create(user=user)
+
+            # ✅ If this is the FIRST user, make admin
+            if User.objects.count() == 1:
+                profile.is_custom_admin = True
+                profile.save()
+
+            messages.success(request, 'Account created successfully.')
+            return redirect('login')
+
     else:
         form = Register()
+
     return render(request, 'register.html', {'form': form})
 
 
@@ -355,7 +356,6 @@ def payment_success(request):
 
 def payment_cancelled(request):
     return render(request, "payment_cancelled.html")
-# views.py
 @login_required
 @admin_required
 def make_admin(request):
@@ -363,29 +363,14 @@ def make_admin(request):
         username = request.POST.get('username')
         user = User.objects.filter(username=username).first()
 
-        if user:
-            profile, created = Profile.objects.get_or_create(user=user)
-            profile.is_custom_admin = True
-            profile.save()
-
-            messages.success(request, f"{user.username} is now an admin")
-        else:
+        if not user:
             messages.error(request, "User not found")
+            return redirect('make_admin')
+
+        profile, _ = Profile.objects.get_or_create(user=user)
+        profile.is_custom_admin = True
+        profile.save()
+
+        messages.success(request, f"{user.username} is now an admin")
 
     return render(request, 'admin/make_admin.html')
-
-
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from .models import Profile
-
-@login_required
-def make_me_admin_once(request):
-    profile = request.user.profile
-
-    if profile.is_custom_admin:
-        return HttpResponse("You are already an admin.")
-
-    profile.is_custom_admin = True
-    profile.save()
-    return HttpResponse("You are now an admin. You can close this page.")
