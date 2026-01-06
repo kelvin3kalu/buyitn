@@ -4,7 +4,8 @@ from shop.models import Product, Order, OrderItem, Category, Profile
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .product import Podu  # your product form\
-from .decorate import admin_required
+from shop.decorate import admin_required
+
 
 # Restrict access to admin group only
 from shop.decorate import group_required
