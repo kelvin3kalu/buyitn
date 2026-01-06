@@ -9,8 +9,8 @@ from shop.decorate import admin_required
 
 # Restrict access to admin group only
 
-@admin_required
 @login_required
+@admin_required
 def dashboard(request):
     total_users = User.objects.count()
     total_products = Product.objects.count()
