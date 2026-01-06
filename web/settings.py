@@ -78,12 +78,12 @@ import dj_database_url
 
 DATABASES = {
     "default": {
-        "ENGINE": os.environ.get("DB_ENGINE", "django.db.backends.postgresql"),
-        "NAME": os.environ.get("DB_NAME", "buyit_db_fcza"),
-        "USER": os.environ.get("DB_USER", "buyitn_user"),
-        "PASSWORD": os.environ.get("DB_PASSWORD", "YourPasswordHere"),
-        "HOST": os.environ.get("DB_HOST", "dpg-d54rbamuk2gs73bhs3cg-a"),
-        "PORT": os.environ.get("DB_PORT", "5432"),
+        "ENGINE": os.environ.get("DB_ENGINE"),
+        "NAME": os.environ.get("DB_NAME"),
+        "USER": os.environ.get("DB_USER"),
+        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "HOST": os.environ.get("DB_HOST"),
+        "PORT": os.environ.get("DB_PORT"),
         "OPTIONS": {
             "sslmode": "require",       
         },
