@@ -8,7 +8,7 @@ from shop.decorate import admin_required
 
 
 # Restrict access to admin group only
-from shop.decorate import group_required
+
 @admin_required
 @login_required
 def dashboard(request):
