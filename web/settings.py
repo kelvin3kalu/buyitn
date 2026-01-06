@@ -77,11 +77,17 @@ WSGI_APPLICATION = 'web.wsgi.application'
 import dj_database_url
 
 DATABASES = {
-    "default": dj_database_url.config(
-        default=os.environ.get("DATABASE_URL"),
-        conn_max_age=600,
-        ssl_require=True,
-    )
+    "default": {
+        "ENGINE": os.environ.get("DB_ENGINE", "django.db.backends.postgresql"),
+        "NAME": os.environ.get("DB_NAME", "buyit_db_fcza"),
+        "USER": os.environ.get("DB_USER", "buyitn_user"),
+        "PASSWORD": os.environ.get("DB_PASSWORD", "YourPasswordHere"),
+        "HOST": os.environ.get("DB_HOST", "dpg-d54rbamuk2gs73bhs3cg-a"),
+        "PORT": os.environ.get("DB_PORT", "5432"),
+        "OPTIONS": {
+            "sslmode": "require",       
+        },
+    }
 }
 
 
