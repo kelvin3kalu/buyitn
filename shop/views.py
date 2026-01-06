@@ -4,7 +4,7 @@ from .product import Podu
 from django.contrib.auth import authenticate,login,logout,user_logged_in
 from .reigister import Register, EditProfileForm
 from django.contrib.auth.decorators import login_required
-from .decorate import group_required, admin_required
+from .decorate import  admin_required
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 from .models import ContactMessage
