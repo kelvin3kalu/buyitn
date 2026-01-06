@@ -25,7 +25,6 @@ urlpatterns=[
     path('cart/', views.cart_view, name='cart'),
     path("paypal/create/", views.paypal_create_order_view, name="paypal_create"),
     path("paypal/capture/", views.paypal_capture_order_view, name="paypal_capture"),
-    path("bootstrap-admin/", views.make_me_admin_once),
     path('remove-from-cart/<int:cart_item_id>/', views.remove_from_cart, name='remove-from-cart'),
     path('payment-success/', views.payment_success, name='payment_success'),
     path('payment-cancelled/', views.payment_cancelled, name='payment_cancelled'),
