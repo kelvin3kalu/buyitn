@@ -8,10 +8,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 # ===============================
 
-# ❌ REMOVE fallback – Render MUST provide this
+#  REMOVE fallback – Render MUST provide this
 SECRET_KEY = os.environ["SECRET_KEY"]
 
-# ❌ Do NOT read DEBUG from env on Render
+# Do NOT read DEBUG from env on Render
 DEBUG = False
 
 # ===============================
