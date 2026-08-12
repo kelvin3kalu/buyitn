@@ -38,13 +38,9 @@ def notlog(request):
     messages.error(request, "You must log in before accessing this page.")
     return redirect('login')
 
-from django.core.mail import send_mail, BadHeaderError
-from django.conf import settings
-from django.contrib import messages
-from django.shortcuts import render, redirect
-from .forms import ContactForm  # Assuming you have this form
 
-from .models import ContactMessage
+
+
 
 def contact(request):
     if request.method == 'POST':
@@ -56,24 +52,15 @@ def contact(request):
             message = form.cleaned_data['message']
 
             # ✅ SAVE TO DATABASE
-            ContactMessage.objects.create(
-                name=name,
-                email=email,
-                subject=subject,
-                message=message
-            )
+            ContactMessage.objects.create(name=name,email=email,subject=subject,message=message)
 
             full_message = f"""
-New contact form submission from BuyIt:
-
-Name: {name}
-Email: {email}
-
-Subject: {subject}
-
-Message:
-{message}
-"""
+                    New contact form submission from BuyIt:
+                    Name: {name}
+                    Email: {email}
+                    Subject: {subject}
+                    Message:{message}
+                    """
 
             try:
                 send_mail(
