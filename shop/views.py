@@ -153,6 +153,7 @@ def login_user(request):
     return render(request,'login.html')
 
 @login_required
+@admin_required
 def product(request):
     if request.method == 'POST':
         form = Podu(request.POST, request.FILES)
