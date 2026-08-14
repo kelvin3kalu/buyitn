@@ -29,6 +29,7 @@ urlpatterns=[
     path('payment-success/', views.payment_success, name='payment_success'),
     path('payment-cancelled/', views.payment_cancelled, name='payment_cancelled'),
     path('my-orders/', views.order_history, name='order_history'),
+    path('admin-status/', views.my_admin_status, name='my_admin_status'),
     path('order/<int:order_id>/delete/', views.remove_order, name='remove_order'),
     path('clear-order-history/', views.clear_order_history, name='clear_order_history')
 ]
