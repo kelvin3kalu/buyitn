@@ -105,6 +105,15 @@ def register(request):
 
 
 @login_required
+def my_admin_status(request):
+    profile, _ = Profile.objects.get_or_create(user=request.user)
+
+    return render(request, 'admin_status.html', {
+        'username': request.user.username,
+        'is_admin': profile.is_custom_admin,
+    })
+
+@login_required
 def settings_view(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=request.user)
