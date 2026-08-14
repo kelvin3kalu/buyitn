@@ -1,0 +1,9 @@
+<h2>Admin Status</h2>
+
+<p>User: {{ username }}</p>
+
+{% if is_admin %}
+    <p>✅ You are a BuyIt admin.</p>
+{% else %}
+    <p>❌ You are not a BuyIt admin.</p>
+{% endif %}
