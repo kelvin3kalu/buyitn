@@ -73,6 +73,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'web.wsgi.application'
 
+
+LOGIN_URL = "/login/"
 # ===============================
 # DATABASE
 # ===============================

@@ -162,7 +162,6 @@ def login_user(request):
     return render(request,'login.html')
 
 @login_required
-
 def product(request):
     if request.method == 'POST':
         form = Podu(request.POST, request.FILES)
@@ -216,7 +215,6 @@ def product_detail(request, pk):
     return render(request, 'product_detail.html', {'product': product})
 
 @login_required
-@admin_required
 def product_edit(request, pk):
     product = Product.objects.get(pk=pk)
     if request.method == 'POST':
@@ -230,7 +228,6 @@ def product_edit(request, pk):
 
 
 @login_required
-@admin_required
 def product_delete(request, pk):
     product = Product.objects.get(pk=pk)
     if request.method == 'POST':
